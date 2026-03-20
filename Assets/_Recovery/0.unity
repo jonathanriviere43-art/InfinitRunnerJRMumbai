@@ -473,7 +473,7 @@ MonoBehaviour:
   - {fileID: 2175298132411896940, guid: 635a26085ba744ddd9c43851eeefa867, type: 3}
   - {fileID: 2135954568975185314, guid: 4a4e444599e704a05ae6a61be52a6cea, type: 3}
   activeChunks: 10
-  moveSpeed: 3
+  moveSpeed: 5
 --- !u!4 &1118099159
 Transform:
   m_ObjectHideFlags: 0
@@ -737,7 +737,7 @@ MonoBehaviour:
   - {fileID: 1974396050}
   - {fileID: 1886898289}
   - {fileID: 1968357417}
-  moveSpeed: 5
+  moveSpeed: 2
   animator: {fileID: 1539791700}
 --- !u!54 &1701399485
 Rigidbody:
