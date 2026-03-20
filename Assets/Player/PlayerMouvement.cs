@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,8 +15,13 @@ public class PlayerMouvement : MonoBehaviour
     [SerializeField] private Transform[] lanes;
     [SerializeField] private float moveSpeed = 5f;
 
-    [Header("Animation")]
-    [SerializeField] private Animator animator;
+    [Header("Speed Settings")]
+    [SerializeField] private float walkSpeed = 5f;
+    [SerializeField] private float runSpeed = 10f;
+    [SerializeField] private float flySpeed = 15f;
+
+    private int currentSpeedState = 2; // start en course
+    private float forwardSpeed;
 
     private PlayerControls controls;
 
@@ -32,25 +38,25 @@ public class PlayerMouvement : MonoBehaviour
     // Slide
     private bool isSliding = false;
 
+    // ----- NOUVEAU -----
+    private int speedBeforeStop = 2; // mémorise la vitesse avant l'arrêt
+
     private void Awake()
     {
         controls = new PlayerControls();
 
-        // Jump
         controls.Player.Jump.performed += ctx =>
         {
             if (!isJumping && !isSliding)
                 StartJump();
         };
 
-        // Slide
         controls.Player.Slide.performed += ctx =>
         {
             if (!isSliding && !isJumping)
                 StartSlide();
         };
 
-        // Move
         controls.Player.Move.performed += ctx =>
         {
             if (lockedMoveDirection != 0f) return;
@@ -64,15 +70,13 @@ public class PlayerMouvement : MonoBehaviour
         };
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        controls.Enable();
+        SetSpeed(currentSpeedState);
     }
 
-    private void OnDisable()
-    {
-        controls.Disable();
-    }
+    private void OnEnable() => controls.Enable();
+    private void OnDisable() => controls.Disable();
 
     // -------- JUMP --------
 
@@ -81,8 +85,6 @@ public class PlayerMouvement : MonoBehaviour
         isJumping = true;
         jumpTimeElapsed = 0f;
         startY = transform.position.y;
-
-        animator.SetTrigger("Jump");
     }
 
     // -------- SLIDE --------
@@ -90,9 +92,6 @@ public class PlayerMouvement : MonoBehaviour
     private void StartSlide()
     {
         isSliding = true;
-
-        animator.SetTrigger("Slide");
-
         Invoke(nameof(EndSlide), slideDuration);
     }
 
@@ -107,12 +106,20 @@ public class PlayerMouvement : MonoBehaviour
     {
         targetLane = Mathf.Max(0, currentLane - 1);
         lockedMoveDirection = -1f;
+
+        // Si on était à vitesse 0, on reprend la vitesse précédente
+        if (forwardSpeed == 0f)
+            SetSpeed(speedBeforeStop);
     }
 
     private void MoveRight()
     {
         targetLane = Mathf.Min(lanes.Length - 1, currentLane + 1);
         lockedMoveDirection = 1f;
+
+        // Si on était à vitesse 0, on reprend la vitesse précédente
+        if (forwardSpeed == 0f)
+            SetSpeed(speedBeforeStop);
     }
 
     private void Update()
@@ -149,7 +156,6 @@ public class PlayerMouvement : MonoBehaviour
         if (!isJumping) return;
 
         jumpTimeElapsed += Time.deltaTime;
-
         float t = jumpTimeElapsed / jumpDuration;
 
         float yOffset = -4 * jumpHeight * Mathf.Pow(t - 0.5f, 2) + jumpHeight;
@@ -163,12 +169,35 @@ public class PlayerMouvement : MonoBehaviour
         if (jumpTimeElapsed >= jumpDuration)
         {
             isJumping = false;
-
             transform.position = new Vector3(
                 transform.position.x,
                 startY,
                 transform.position.z
             );
         }
+    }
+
+    // -------- SPEED SYSTEM --------
+
+    public void SetSpeed(int v)
+    {
+        currentSpeedState = v;
+
+        // mémoriser la vitesse avant l'arrêt
+        if (v != 0)
+            speedBeforeStop = v;
+
+        switch (v)
+        {
+            case 0: forwardSpeed = 0f; break;
+            case 1: forwardSpeed = walkSpeed; break;
+            case 2: forwardSpeed = runSpeed; break;
+            case 3: forwardSpeed = flySpeed; break;
+        }
+    }
+
+    public float GetForwardSpeed()
+    {
+        return forwardSpeed;
     }
 }

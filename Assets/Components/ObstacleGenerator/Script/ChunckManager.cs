@@ -7,12 +7,14 @@ public class ChunkManager : MonoBehaviour
     public int activeChunks = 10;
     public float moveSpeed = 5f;
 
+    [Header("Player Reference")]
+    [SerializeField] private PlayerMouvement player;
+
     private Queue<GameObject> chunks = new Queue<GameObject>();
     private int lastChunkIndex = -1;
 
     void Start()
     {
-        // Spawn initial : 10 chunks consécutifs
         for (int i = 0; i < activeChunks; i++)
         {
             SpawnNextChunk();
@@ -21,15 +23,24 @@ public class ChunkManager : MonoBehaviour
 
     void Update()
     {
+        UpdateSpeed();
         MoveChunks();
         RecycleChunks();
+    }
+
+    void UpdateSpeed()
+    {
+        if (player == null) return;
+
+        moveSpeed = player.GetForwardSpeed();
     }
 
     void MoveChunks()
     {
         foreach (var chunk in chunks)
         {
-            chunk.transform.position += Vector3.back * moveSpeed * Time.deltaTime; // adapte selon ton axe
+            if (chunk == null) continue;
+            chunk.transform.position += Vector3.back * moveSpeed * Time.deltaTime;
         }
     }
 
@@ -38,32 +49,36 @@ public class ChunkManager : MonoBehaviour
         if (chunks.Count == 0) return;
 
         GameObject firstChunk = chunks.Peek();
+        if (firstChunk == null) return;
 
-        if (firstChunk.transform.position.z < -20f) // sortie de l'écran
+        if (firstChunk.transform.position.z < -20f)
         {
-            chunks.Dequeue();           // retire chunk
-            Destroy(firstChunk);        // ou recycler si tu veux
-
-            SpawnNextChunk();           // spawn après le dernier chunk
+            chunks.Dequeue();
+            Destroy(firstChunk);
+            SpawnNextChunk();
         }
     }
 
     void SpawnNextChunk()
     {
         GameObject prefab = GetRandomPrefab();
+        if (prefab == null) return;
+
         Vector3 spawnPos = Vector3.zero;
 
-        // Si on a déjà des chunks, spawn après le dernier
         if (chunks.Count > 0)
         {
             GameObject lastChunk = null;
-            foreach (var c in chunks) lastChunk = c; // dernier dans la queue
+            foreach (var c in chunks) lastChunk = c;
 
-            Transform end = lastChunk.transform.Find("EndPoint");
-            if (end != null)
-                spawnPos = end.position;
-            else
-                Debug.LogError("Dernier chunk n'a pas d'EndPoint !");
+            if (lastChunk != null)
+            {
+                Transform end = lastChunk.transform.Find("EndPoint");
+                if (end != null)
+                    spawnPos = end.position;
+                else
+                    Debug.LogError("Dernier chunk n'a pas d'EndPoint !");
+            }
         }
 
         GameObject chunk = Instantiate(prefab, spawnPos, Quaternion.identity);

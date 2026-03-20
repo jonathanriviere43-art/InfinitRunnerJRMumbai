@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
+  - component: {fileID: 330585548}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -256,6 +257,18 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &330585548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93f29115e4feb47cc8801678f3a47f18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraShake
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,8 +485,13 @@ MonoBehaviour:
   - {fileID: 5494482818450396543, guid: 57021d830c0b1447586bb24ef89570b2, type: 3}
   - {fileID: 2175298132411896940, guid: 635a26085ba744ddd9c43851eeefa867, type: 3}
   - {fileID: 2135954568975185314, guid: 4a4e444599e704a05ae6a61be52a6cea, type: 3}
+  - {fileID: 7950249113758804845, guid: a817056fbbdec4e689f4682e5a0df8c9, type: 3}
+  - {fileID: 5494482818450396543, guid: 57021d830c0b1447586bb24ef89570b2, type: 3}
+  - {fileID: 1787105357611556590, guid: 19eb3188859f4493baa35d62634df633, type: 3}
+  - {fileID: 8125004940308596685, guid: 9d99cea217d6046cb983b876c6b6dea8, type: 3}
   activeChunks: 10
-  moveSpeed: 3
+  moveSpeed: 2
+  player: {fileID: 1701399484}
 --- !u!4 &1118099159
 Transform:
   m_ObjectHideFlags: 0
@@ -617,6 +635,7 @@ GameObject:
   - component: {fileID: 1701399480}
   - component: {fileID: 1701399485}
   - component: {fileID: 1701399484}
+  - component: {fileID: 1701399486}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -639,12 +658,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.56167924, y: 0.5541188, z: 0.26516157}
+  m_Center: {x: -0.009556547, y: -0.2229406, z: 0.3674192}
 --- !u!23 &1701399481
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -737,8 +756,10 @@ MonoBehaviour:
   - {fileID: 1974396050}
   - {fileID: 1886898289}
   - {fileID: 1968357417}
-  moveSpeed: 5
-  animator: {fileID: 1539791700}
+  moveSpeed: 4
+  walkSpeed: 1
+  runSpeed: 2
+  flySpeed: 3
 --- !u!54 &1701399485
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -762,10 +783,23 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
+  m_IsKinematic: 1
+  m_Interpolate: 1
   m_Constraints: 124
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
+--- !u!114 &1701399486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701399479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da17103a268e643dca0b0fc9ff2a569c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCollisionHandler
+  cameraShake: {fileID: 330585548}
 --- !u!1 &1886898288
 GameObject:
   m_ObjectHideFlags: 0
@@ -913,7 +947,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6708553363386877357, guid: 7f9a4d4a5224a4a838de8ed68c0deb2e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
