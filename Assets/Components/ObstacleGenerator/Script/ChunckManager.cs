@@ -10,6 +10,12 @@ public class ChunkManager : MonoBehaviour
     [Header("Player Reference")]
     [SerializeField] private PlayerMouvement player;
 
+    [Header("Capsule Settings")]
+    public GameObject capsulePrefab;          // prefab de la capsule à spawn
+    public float capsuleSpawnHeight = 1f;     // Y fixe pour la capsule
+    public float[] allowedX = { -3f, 0f, 3f }; // positions X autorisées
+    public string[] obstacleTags = { "Obstacle", "ObstacleWood" }; // tags à éviter
+
     private Queue<GameObject> chunks = new Queue<GameObject>();
     private int lastChunkIndex = -1;
 
@@ -31,7 +37,6 @@ public class ChunkManager : MonoBehaviour
     void UpdateSpeed()
     {
         if (player == null) return;
-
         moveSpeed = player.GetForwardSpeed();
     }
 
@@ -83,6 +88,9 @@ public class ChunkManager : MonoBehaviour
 
         GameObject chunk = Instantiate(prefab, spawnPos, Quaternion.identity);
         chunks.Enqueue(chunk);
+
+        // 🔹 Spawn d'une capsule aléatoire sur ce chunk
+        TrySpawnCapsule(chunk);
     }
 
     GameObject GetRandomPrefab()
@@ -97,5 +105,37 @@ public class ChunkManager : MonoBehaviour
 
         lastChunkIndex = index;
         return chunkPrefabs[index];
+    }
+
+    void TrySpawnCapsule(GameObject chunk)
+    {
+        if (capsulePrefab == null || chunk == null) return;
+
+        // Choisir un X aléatoire parmi allowedX
+        float randomX = allowedX[Random.Range(0, allowedX.Length)];
+
+        // Choisir Z aléatoire dans la longueur du chunk
+        float minZ = chunk.transform.position.z;
+        float maxZ = chunk.transform.position.z + chunk.transform.localScale.z;
+        float randomZ = Random.Range(minZ, maxZ);
+
+        Vector3 spawnPos = new Vector3(randomX, capsuleSpawnHeight, randomZ);
+
+        // Vérifier qu'il n'y a pas d'obstacle
+        Collider[] hitColliders = Physics.OverlapSphere(spawnPos, 0.5f);
+        foreach (var hit in hitColliders)
+        {
+            foreach (string tag in obstacleTags)
+            {
+                if (hit.CompareTag(tag))
+                {
+                    // Si un obstacle est présent → ne pas spawn
+                    return;
+                }
+            }
+        }
+
+        // ⚡ Instancier la capsule comme enfant du chunk
+        Instantiate(capsulePrefab, spawnPos, Quaternion.identity, chunk.transform);
     }
 }
