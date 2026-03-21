@@ -16,9 +16,12 @@ public class PlayerMouvement : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
 
     [Header("Speed Settings")]
-    [SerializeField] private float walkSpeed = 5f;
-    [SerializeField] private float runSpeed = 10f;
-    [SerializeField] private float flySpeed = 15f;
+    [SerializeField] private float walkSpeed = 1f;
+    public float runSpeed = 2f;
+    [SerializeField] private float flySpeed = 3f;
+
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
 
     private int currentSpeedState = 2; // start en course
     private float forwardSpeed;
@@ -40,6 +43,7 @@ public class PlayerMouvement : MonoBehaviour
 
     // ----- NOUVEAU -----
     private int speedBeforeStop = 2; // mémorise la vitesse avant l'arrêt
+    private Vector3 stopPosition;    // position à retenir quand on touche la pierre (X/Z seulement)
 
     private void Awake()
     {
@@ -85,6 +89,17 @@ public class PlayerMouvement : MonoBehaviour
         isJumping = true;
         jumpTimeElapsed = 0f;
         startY = transform.position.y;
+
+        // Débloque le joueur si il était bloqué
+        if (forwardSpeed == 0f)
+        {
+            SetSpeed(speedBeforeStop);
+            lockedMoveDirection = 0f;
+        }
+
+        // ----- REACTIVER ANIMATION -----
+        if (animator != null)
+            animator.SetTrigger("Jump");
     }
 
     // -------- SLIDE --------
@@ -92,6 +107,9 @@ public class PlayerMouvement : MonoBehaviour
     private void StartSlide()
     {
         isSliding = true;
+        if (animator != null)
+            animator.SetTrigger("Slide");
+
         Invoke(nameof(EndSlide), slideDuration);
     }
 
@@ -130,6 +148,13 @@ public class PlayerMouvement : MonoBehaviour
 
     private void HandleMovement()
     {
+        if (forwardSpeed == 0f)
+        {
+            // Bloqué → reste sur X/Z, mais Y libre pour le jump
+            transform.position = new Vector3(stopPosition.x, transform.position.y, stopPosition.z);
+            return;
+        }
+
         Vector3 targetPos = new Vector3(
             lanes[targetLane].position.x,
             transform.position.y,
@@ -186,6 +211,11 @@ public class PlayerMouvement : MonoBehaviour
         // mémoriser la vitesse avant l'arrêt
         if (v != 0)
             speedBeforeStop = v;
+        else
+        {
+            // retenir X/Z seulement pour le blocage, Y libre
+            stopPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        }
 
         switch (v)
         {

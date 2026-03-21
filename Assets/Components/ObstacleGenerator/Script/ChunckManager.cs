@@ -5,7 +5,7 @@ public class ChunkManager : MonoBehaviour
 {
     public List<GameObject> chunkPrefabs;
     public int activeChunks = 10;
-    public float moveSpeed = 5f;
+    public float moveSpeed = 2f;
 
     [Header("Player Reference")]
     [SerializeField] private PlayerMouvement player;

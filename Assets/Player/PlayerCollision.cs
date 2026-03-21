@@ -7,6 +7,9 @@ public class PlayerCollisionHandler : MonoBehaviour
 
     [SerializeField] private CameraShake cameraShake; // assigner dans l’inspector
 
+    // mémorise la vitesse avant l'eau
+    private int speedBeforeWater;
+
     private void Start()
     {
         player = GetComponent<PlayerMouvement>();
@@ -14,32 +17,46 @@ public class PlayerCollisionHandler : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // --- Obstacle Pierre ---
         if (other.CompareTag("Obstacle"))
         {
             Debug.Log("Obstacle pierre touché !");
-            player.SetSpeed(0); // bloque jusqu'à ce que le joueur change de lane
-
-            // Camera shake
-            if (cameraShake != null)
-                cameraShake.Shake(0.5f, 0.2f);
+            player.SetSpeed(0);
         }
-        // --- Obstacle Bois ---
         else if (other.CompareTag("ObstacleWood"))
         {
             Debug.Log("Obstacle bois touché !");
             StartCoroutine(HitWoodCoroutine());
 
-            // Camera shake
             if (cameraShake != null)
                 cameraShake.Shake(0.5f, 0.2f);
+        }
+        else if (other.CompareTag("Water"))
+        {
+            Debug.Log("Water touché ! Vitesse divisée par 2");
+
+            // mémorise la vitesse actuelle
+            speedBeforeWater = player.GetForwardSpeed() > 0 ? Mathf.RoundToInt(player.GetForwardSpeed()) : 2;
+
+            // divise la vitesse par 2
+            player.SetSpeed(Mathf.Max(1, speedBeforeWater / 2));
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Water"))
+        {
+            Debug.Log("Sortie de l'eau ! Reprise vitesse course");
+
+            // remet la vitesse de course
+            player.SetSpeed(2);
         }
     }
 
     private IEnumerator HitWoodCoroutine()
     {
-        player.SetSpeed(0);                  // arrêter le joueur
-        yield return new WaitForSeconds(0.5f); // pause 0.5 seconde
-        player.SetSpeed(2);                  // remettre la vitesse de course
+        player.SetSpeed(0);
+        yield return new WaitForSeconds(0.5f);
+        player.SetSpeed(2);
     }
 }
