@@ -38,7 +38,7 @@ public class PlayerCollisionHandler : MonoBehaviour
             speedBeforeWater = player.GetForwardSpeed() > 0 ? Mathf.RoundToInt(player.GetForwardSpeed()) : 2;
 
             // divise la vitesse par 2
-            player.SetSpeed(Mathf.Max(1, speedBeforeWater / 2));
+            player.SetSpeed(Mathf.Max(1, speedBeforeWater / 5));
         }
     }
 

@@ -111,20 +111,20 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Slide"",
-                    ""type"": ""Button"",
-                    ""id"": ""753723d3-7464-4132-963f-c521d3a2f79d"",
-                    ""expectedControlType"": """",
+                    ""name"": ""Fly"",
+                    ""type"": ""Value"",
+                    ""id"": ""1a845562-4430-4f17-9630-8b99ce1ec9b0"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
                     ""id"": ""ad7170fb-4d5c-4b99-99b3-8cad1795ed54"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -167,12 +167,23 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""42d1751e-8b58-4a25-be7b-555b89436ea3"",
+                    ""id"": ""db427466-acc5-44ab-a665-48376cbc0943"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fly"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d748c546-4168-4ef6-a8bf-d3aacf75ae0b"",
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Slide"",
+                    ""action"": ""Fly"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -185,7 +196,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_Slide = m_Player.FindAction("Slide", throwIfNotFound: true);
+        m_Player_Fly = m_Player.FindAction("Fly", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -268,7 +279,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_Slide;
+    private readonly InputAction m_Player_Fly;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -289,9 +300,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Move => m_Wrapper.m_Player_Move;
         /// <summary>
-        /// Provides access to the underlying input action "Player/Slide".
+        /// Provides access to the underlying input action "Player/Fly".
         /// </summary>
-        public InputAction @Slide => m_Wrapper.m_Player_Slide;
+        public InputAction @Fly => m_Wrapper.m_Player_Fly;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -324,9 +335,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
-            @Slide.started += instance.OnSlide;
-            @Slide.performed += instance.OnSlide;
-            @Slide.canceled += instance.OnSlide;
+            @Fly.started += instance.OnFly;
+            @Fly.performed += instance.OnFly;
+            @Fly.canceled += instance.OnFly;
         }
 
         /// <summary>
@@ -344,9 +355,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
-            @Slide.started -= instance.OnSlide;
-            @Slide.performed -= instance.OnSlide;
-            @Slide.canceled -= instance.OnSlide;
+            @Fly.started -= instance.OnFly;
+            @Fly.performed -= instance.OnFly;
+            @Fly.canceled -= instance.OnFly;
         }
 
         /// <summary>
@@ -402,11 +413,11 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMove(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Slide" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Fly" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSlide(InputAction.CallbackContext context);
+        void OnFly(InputAction.CallbackContext context);
     }
 }

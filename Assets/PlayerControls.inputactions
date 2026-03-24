@@ -25,20 +25,20 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Slide",
-                    "type": "Button",
-                    "id": "753723d3-7464-4132-963f-c521d3a2f79d",
-                    "expectedControlType": "",
+                    "name": "Fly",
+                    "type": "Value",
+                    "id": "1a845562-4430-4f17-9630-8b99ce1ec9b0",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
                 {
                     "name": "",
                     "id": "ad7170fb-4d5c-4b99-99b3-8cad1795ed54",
-                    "path": "<Keyboard>/w",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -81,12 +81,23 @@
                 },
                 {
                     "name": "",
-                    "id": "42d1751e-8b58-4a25-be7b-555b89436ea3",
+                    "id": "db427466-acc5-44ab-a665-48376cbc0943",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fly",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d748c546-4168-4ef6-a8bf-d3aacf75ae0b",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Slide",
+                    "action": "Fly",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -5,27 +5,53 @@ public class PlayerInventory : MonoBehaviour
 {
     [Header("Inventory")]
     public List<GameObject> collectedCapsules = new List<GameObject>();
-    public int maxCapsules = 6;  // Maximum de capsules que le joueur peut collecter
+    public int maxCapsules = 6;
+
+    [Header("Fuel System")]
+    public float currentFuel;
+    public float maxFuel;
+
+    void Start()
+    {
+        maxFuel = maxCapsules;
+        currentFuel = 0f;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Carburant"))
         {
-            // Vérifier si on a déjà le maximum
             if (collectedCapsules.Count >= maxCapsules)
             {
                 Debug.Log("Inventaire plein !");
-                return; // Ne pas collecter
+                return;
             }
 
-            // Ajouter la capsule à l'inventaire
             collectedCapsules.Add(other.gameObject);
-
-            // Désactiver la capsule pour l'effet visuel
             other.gameObject.SetActive(false);
 
-            // Debug
+            // Ajout de fuel
+            currentFuel += 1f;
+            currentFuel = Mathf.Clamp(currentFuel, 0, maxFuel);
+
             Debug.Log("Capsule collectée ! Total : " + collectedCapsules.Count);
         }
+    }
+
+    // Méthode pour consommer du fuel
+    public bool ConsumeFuel(float amount)
+    {
+        if (currentFuel <= 0f) return false;
+
+        currentFuel -= amount;
+        currentFuel = Mathf.Clamp(currentFuel, 0f, maxFuel);
+
+        // Supprimer des capsules si nécessaire
+        while (collectedCapsules.Count > Mathf.RoundToInt(currentFuel))
+        {
+            collectedCapsules.RemoveAt(collectedCapsules.Count - 1);
+        }
+
+        return true;
     }
 }

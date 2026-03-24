@@ -8,6 +8,7 @@ public class CrowdController : MonoBehaviour
     [Header("Crowd Settings")]
     public float followDistance = 5f;    // distance initiale derrière le joueur
     public float catchUpSpeed = 1f;      // vitesse de rattrapage maximale
+    public float recoilFactor = 0.5f;    // facteur pour limiter la vitesse de recul en vol
 
     private float zOffset;
 
@@ -18,7 +19,7 @@ public class CrowdController : MonoBehaviour
         // Initialisation derrière le joueur
         zOffset = followDistance;
         transform.position = new Vector3(
-            transform.position.x,          // garde la X initiale
+            transform.position.x,
             transform.position.y,
             player.transform.position.z - zOffset
         );
@@ -31,33 +32,37 @@ public class CrowdController : MonoBehaviour
         float playerSpeed = player.GetForwardSpeed();
         float speedFactor = 1f;
 
-        // Déterminer le facteur selon la situation
-        if (playerSpeed == 0f)
+        if (!player.IsFlying)
         {
-            // Joueur bloqué → catch-up normal
-            speedFactor = 1f;
-            Debug.Log($"Joueur bloqué : catch-up normal ({catchUpSpeed} m/s)");
-        }
-        else if (playerSpeed > 0f && playerSpeed < player.runSpeed)
-        {
-            // Joueur ralenti (dans l'eau) → catch-up divisé par 5
-            speedFactor = 0.2f;  // 1/5
-            Debug.Log($"Joueur ralenti (eau) : catch-up divisé par 5 ({catchUpSpeed * speedFactor} m/s)");
-        }
+            // Catch-up normal quand joueur au sol
+            if (playerSpeed == 0f)
+            {
+                speedFactor = 1f; // joueur bloqué
+            }
+            else if (playerSpeed > 0f && playerSpeed < player.runSpeed)
+            {
+                speedFactor = 0.2f; // joueur ralenti
+            }
 
-        // Appliquer le rattrapage si joueur ralenti ou bloqué
-        if (playerSpeed < player.runSpeed)
+            if (playerSpeed < player.runSpeed)
+            {
+                float deltaZ = catchUpSpeed * speedFactor * Time.deltaTime;
+                zOffset -= deltaZ;
+            }
+        }
+        else
         {
-            float deltaZ = catchUpSpeed * speedFactor * Time.deltaTime;
-            zOffset -= deltaZ;
-            Debug.Log($"Rattrapage actif : ΔZ = {deltaZ}, zOffset = {zOffset}");
+            // Joueur en vol → la foule recule proportionnellement à sa vitesse
+            float deltaZ = playerSpeed * recoilFactor * Time.deltaTime;
+            zOffset += deltaZ;
         }
 
         // Position finale de la foule (X fixe)
         transform.position = new Vector3(
-            transform.position.x,          // X reste fixe
+            transform.position.x,
             transform.position.y,
             player.transform.position.z - zOffset
         );
     }
+    
 }
