@@ -10,6 +10,7 @@ public class PlayerInventory : MonoBehaviour
     [Header("Fuel System")]
     public float currentFuel;
     public float maxFuel;
+    internal int currentPotions;
 
     void Start()
     {

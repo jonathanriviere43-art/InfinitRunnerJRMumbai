@@ -25,8 +25,18 @@ public class PlayerMouvement : MonoBehaviour
     [SerializeField] private float flySpeedIncreaseRate = 2f;
     [SerializeField] private float maxFlyRunSpeed = 5f;
 
-    [Header("Animation")]
-    [SerializeField] private Animator animator;
+    [Header("Launch Latency")]
+    [SerializeField] private float launchDelay = 1f;
+
+    [Header("Jump → Fly Combo")]
+    [SerializeField] private float jumpFlyWindow = 0.3f;
+
+    [Header("Wood Hit Settings")]
+    [SerializeField] private float woodStunDuration = 0.5f;
+
+    [Header("Air Obstacle Stun")]
+    [SerializeField] private float airStunDuration = 1f; // 1 seconde
+    [SerializeField] private float airFallSpeed = 10f;
 
     private int currentSpeedState = 2;
     private float forwardSpeed;
@@ -34,7 +44,6 @@ public class PlayerMouvement : MonoBehaviour
     private PlayerControls controls;
     private int currentLane = 1;
     private int targetLane = 1;
-    private float lockedMoveDirection = 0f;
 
     // Jump
     private bool isJumping = false;
@@ -46,17 +55,34 @@ public class PlayerMouvement : MonoBehaviour
     private Vector3 stopPosition;
 
     // Fly
-    private bool isFlying = false;        // true si en vol
+    private bool isFlying = false;
     private float baseY;
     private PlayerInventory inventory;
-    private int flyDirection = 0;          // 1 = monter, -1 = descendre, 0 = stable
-    private bool forceDescend = false;     // true si on doit descendre automatiquement
+    private int flyDirection = 0;
+    private bool forceDescend = false;
+
+    // Latence décollage
+    private bool isWaitingToLaunch = false;
+    private float launchTimer = 0f;
+
+    // Combo Jump -> Fly
+    private float justJumpedTimer = 0f;
+    private bool jumpToFlyComboActive = false;
 
     // Base speed
     private float baseRunSpeed;
 
-    // Blocage vol au sol
+    // Blocage
     private bool blockedByObstacle = false;
+
+    // WOOD STUN
+    private bool isWoodStunned = false;
+    private float woodStunTimer = 0f;
+    private int woodObstacleCounter = 0;
+
+    // AIR STUN
+    private bool isAirStunned = false;
+    private float airStunTimer = 0f;
 
     // PANNE DE CARBURANT
     private bool isOutOfFuel = false;
@@ -67,38 +93,65 @@ public class PlayerMouvement : MonoBehaviour
     {
         controls = new PlayerControls();
 
-        // Saut
+        // SAUT
         controls.Player.Jump.performed += ctx =>
         {
-            if (!isJumping && !isFlying) StartJump();
+            if (!isJumping && !isFlying && !isWaitingToLaunch)
+                StartJump();
         };
 
-        // Déplacement latéral
+        // DEPLACEMENT LATERAL
         controls.Player.Move.performed += ctx =>
         {
-            if (lockedMoveDirection != 0f) return;
+            if (isWaitingToLaunch) return;
 
             float moveValue = ctx.ReadValue<float>();
-            if (moveValue < 0) MoveLeft();
-            else if (moveValue > 0) MoveRight();
+
+            if (moveValue < 0 && targetLane > 0)
+                targetLane--;
+            else if (moveValue > 0 && targetLane < lanes.Length - 1)
+                targetLane++;
+
+            if (blockedByObstacle && !isWoodStunned && !isAirStunned)
+            {
+                blockedByObstacle = false;
+                SetSpeed(speedBeforeStop);
+            }
         };
 
-        // Vol
+        // VOL
         controls.Player.Fly.performed += ctx =>
         {
             string key = ctx.control.name.ToLower();
             if (inventory == null) return;
 
-            if (key == "w" && !blockedByObstacle && inventory.currentFuel > 0f && !isOutOfFuel)
+            if (key == "w" && !blockedByObstacle && inventory.currentFuel > 0f && !isOutOfFuel && !isFlying)
             {
-                // Décollage : on monte
-                flyDirection = 1;
-                forceDescend = false;
-                isFlying = true;
+                if (justJumpedTimer > 0f)
+                {
+                    jumpToFlyComboActive = true;
+
+                    Vector3 pos = transform.position;
+                    pos.y = Mathf.Max(baseY + 0.1f, pos.y);
+                    transform.position = pos;
+
+                    isFlying = true;
+                    flyDirection = 1;
+                    forceDescend = false;
+                    forwardSpeed = runSpeed;
+
+                    isWaitingToLaunch = false;
+                    launchTimer = 0f;
+                }
+                else
+                {
+                    isWaitingToLaunch = true;
+                    launchTimer = launchDelay;
+                    forwardSpeed = 0f;
+                }
             }
             else if (key == "s")
             {
-                // Descente forcée uniquement si en vol
                 if (isFlying)
                 {
                     flyDirection = -1;
@@ -125,29 +178,28 @@ public class PlayerMouvement : MonoBehaviour
         jumpTimeElapsed = 0f;
         startY = transform.position.y;
 
-        if (forwardSpeed == 0f)
-        {
-            SetSpeed(speedBeforeStop);
-            lockedMoveDirection = 0f;
-        }
+        justJumpedTimer = jumpFlyWindow;
+        jumpToFlyComboActive = false;
 
-        animator?.SetTrigger("Jump");
+        if (forwardSpeed == 0f)
+            SetSpeed(speedBeforeStop);
     }
 
     private void HandleJump()
     {
         if (!isJumping) return;
 
+        if (jumpToFlyComboActive)
+        {
+            isJumping = false;
+            return;
+        }
+
         jumpTimeElapsed += Time.deltaTime;
         float t = jumpTimeElapsed / jumpDuration;
-
         float yOffset = -4 * jumpHeight * Mathf.Pow(t - 0.5f, 2) + jumpHeight;
 
-        transform.position = new Vector3(
-            transform.position.x,
-            startY + yOffset,
-            transform.position.z
-        );
+        transform.position = new Vector3(transform.position.x, startY + yOffset, transform.position.z);
 
         if (jumpTimeElapsed >= jumpDuration)
         {
@@ -156,36 +208,19 @@ public class PlayerMouvement : MonoBehaviour
         }
     }
 
-    private void MoveLeft()
-    {
-        targetLane = Mathf.Max(0, currentLane - 1);
-        lockedMoveDirection = -1f;
-        if (forwardSpeed == 0f) SetSpeed(speedBeforeStop);
-    }
-
-    private void MoveRight()
-    {
-        targetLane = Mathf.Min(lanes.Length - 1, currentLane + 1);
-        lockedMoveDirection = 1f;
-        if (forwardSpeed == 0f) SetSpeed(speedBeforeStop);
-    }
-
     private void HandleMovement()
     {
-        if (forwardSpeed == 0f)
-        {
-            transform.position = new Vector3(stopPosition.x, transform.position.y, stopPosition.z);
-            return;
-        }
+        if (isWaitingToLaunch || lanes.Length == 0) return;
+
+        targetLane = Mathf.Clamp(targetLane, 0, lanes.Length - 1);
 
         Vector3 targetPos = new Vector3(lanes[targetLane].position.x, transform.position.y, transform.position.z);
-
         transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
 
         if (Mathf.Abs(transform.position.x - targetPos.x) < 0.01f)
         {
             currentLane = targetLane;
-            lockedMoveDirection = 0f;
+            transform.position = targetPos;
         }
     }
 
@@ -195,36 +230,44 @@ public class PlayerMouvement : MonoBehaviour
 
         Vector3 pos = transform.position;
 
-        // Monter
-        if (flyDirection == 1 && pos.y < baseY + flyHeight)
+        if (isWaitingToLaunch)
         {
+            launchTimer -= Time.deltaTime;
+            forwardSpeed = 0f;
+
+            if (launchTimer <= 0f)
+            {
+                isWaitingToLaunch = false;
+                isFlying = true;
+                flyDirection = 1;
+                forceDescend = false;
+                forwardSpeed = runSpeed;
+            }
+            return;
+        }
+
+        // chute ou vol
+        if (isFlying && flyDirection == 1 && pos.y < baseY + flyHeight)
             pos.y += flySpeed * Time.deltaTime;
-        }
-        // Descendre (vol ou panne)
         else if ((flyDirection == -1 || forceDescend) && pos.y > baseY)
-        {
             pos.y -= flySpeed * Time.deltaTime;
-        }
 
         pos.y = Mathf.Clamp(pos.y, baseY, baseY + flyHeight);
         transform.position = pos;
 
-        // Consommation fuel : seulement si le joueur est en vol et pas au sol
         if (isFlying && pos.y > baseY && !isOutOfFuel)
         {
             bool hasFuel = inventory.ConsumeFuel(fuelConsumption * Time.deltaTime);
-
             if (!hasFuel)
             {
                 isOutOfFuel = true;
                 forceDescend = true;
                 flyDirection = -1;
                 outOfFuelTimer = outOfFuelDelay;
-                SetSpeed(0); // blocage sol
+                SetSpeed(0);
             }
         }
 
-        // Mise à jour vitesse forward
         if (isFlying)
         {
             runSpeed += flySpeedIncreaseRate * Time.deltaTime;
@@ -239,49 +282,114 @@ public class PlayerMouvement : MonoBehaviour
                 forwardSpeed = runSpeed;
         }
 
-        // Fin de vol si arrivé au sol
         if (pos.y <= baseY)
         {
             isFlying = false;
             flyDirection = 0;
             forceDescend = false;
         }
+
+        // Gestion air stun
+        if (isAirStunned)
+        {
+            if (pos.y > baseY)
+            {
+                // chute naturelle
+                pos.y -= airFallSpeed * Time.deltaTime;
+                if (pos.y < baseY) pos.y = baseY;
+                transform.position = pos;
+
+                isFlying = false;
+                flyDirection = 0;
+                forceDescend = false;
+                forwardSpeed = 0f;
+            }
+            else
+            {
+                // stun au sol
+                if (airStunTimer <= 0f)
+                    airStunTimer = airStunDuration;
+
+                airStunTimer -= Time.deltaTime;
+
+                if (airStunTimer <= 0f)
+                {
+                    isAirStunned = false;
+                    SetSpeed(speedBeforeStop);
+                }
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isFlying)
+        if (other.CompareTag("Obstacle"))
         {
-            if (other.CompareTag("Obstacle") || other.CompareTag("ObstacleWood"))
-                blockedByObstacle = true;
-        }
-        else
-        {
-            if (other.CompareTag("Obstacle") || other.CompareTag("ObstacleWood"))
+            if (isFlying)
             {
-                flyDirection = -1;
+                isAirStunned = true;
                 forceDescend = true;
-                runSpeed = Mathf.Max(baseRunSpeed, runSpeed * 0.8f);
-                if (currentSpeedState == 2 || currentSpeedState == 3)
-                    forwardSpeed = runSpeed;
+            }
+            else
+            {
+                blockedByObstacle = true;
+                SetSpeed(0);
+            }
+        }
+        else if (other.CompareTag("ObstacleWood"))
+        {
+            if (isFlying)
+            {
+                isAirStunned = true;
+                forceDescend = true;
+            }
+            else
+            {
+                woodObstacleCounter++;
+                if (!isWoodStunned)
+                {
+                    isWoodStunned = true;
+                    woodStunTimer = woodStunDuration;
+                    blockedByObstacle = true;
+                    SetSpeed(0);
+                }
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Obstacle") || other.CompareTag("ObstacleWood"))
-            if (!isFlying)
-                blockedByObstacle = false;
+        if (other.CompareTag("Obstacle"))
+        {
+            blockedByObstacle = false;
+            SetSpeed(speedBeforeStop);
+        }
+        else if (other.CompareTag("ObstacleWood"))
+        {
+            woodObstacleCounter = Mathf.Max(0, woodObstacleCounter - 1);
+        }
     }
 
     private void Update()
     {
+        if (justJumpedTimer > 0f)
+            justJumpedTimer -= Time.deltaTime;
+
+        if (isWoodStunned)
+        {
+            woodStunTimer -= Time.deltaTime;
+            if (woodStunTimer <= 0f && woodObstacleCounter == 0)
+            {
+                isWoodStunned = false;
+                blockedByObstacle = false;
+                SetSpeed(speedBeforeStop);
+            }
+        }
+
         HandleMovement();
         HandleJump();
         HandleFly();
 
-        // Gestion panne de fuel
         if (isOutOfFuel)
         {
             outOfFuelTimer -= Time.deltaTime;
@@ -314,5 +422,4 @@ public class PlayerMouvement : MonoBehaviour
     public float GetForwardSpeed() => forwardSpeed;
     public bool IsFlying => isFlying;
     public bool IsOutOfFuel => isOutOfFuel;
-    
 }
