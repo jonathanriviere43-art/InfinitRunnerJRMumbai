@@ -35,8 +35,11 @@ public class PlayerMouvement : MonoBehaviour
     [SerializeField] private float woodStunDuration = 0.5f;
 
     [Header("Air Obstacle Stun")]
-    [SerializeField] private float airStunDuration = 1f; // 1 seconde
+    [SerializeField] private float airStunDuration = 1f; 
     [SerializeField] private float airFallSpeed = 10f;
+
+    [Header("Invincibilité après respawn")]
+    [SerializeField] private float invincibleDuration = 2f; // 🔹 2 secondes
 
     private int currentSpeedState = 2;
     private float forwardSpeed;
@@ -89,18 +92,20 @@ public class PlayerMouvement : MonoBehaviour
     private float outOfFuelTimer = 0f;
     [SerializeField] private float outOfFuelDelay = 1f;
 
+    // 🔹 Invincibilité
+    private bool isInvincible = false;
+    private float invincibleTimer = 0f;
+
     private void Awake()
     {
         controls = new PlayerControls();
 
-        // SAUT
         controls.Player.Jump.performed += ctx =>
         {
             if (!isJumping && !isFlying && !isWaitingToLaunch)
                 StartJump();
         };
 
-        // DEPLACEMENT LATERAL
         controls.Player.Move.performed += ctx =>
         {
             if (isWaitingToLaunch) return;
@@ -119,7 +124,6 @@ public class PlayerMouvement : MonoBehaviour
             }
         };
 
-        // VOL
         controls.Player.Fly.performed += ctx =>
         {
             string key = ctx.control.name.ToLower();
@@ -130,7 +134,6 @@ public class PlayerMouvement : MonoBehaviour
                 if (justJumpedTimer > 0f)
                 {
                     jumpToFlyComboActive = true;
-
                     Vector3 pos = transform.position;
                     pos.y = Mathf.Max(baseY + 0.1f, pos.y);
                     transform.position = pos;
@@ -195,7 +198,7 @@ public class PlayerMouvement : MonoBehaviour
             return;
         }
 
-        jumpTimeElapsed += Time.deltaTime;
+        jumpTimeElapsed += Time.unscaledDeltaTime;
         float t = jumpTimeElapsed / jumpDuration;
         float yOffset = -4 * jumpHeight * Mathf.Pow(t - 0.5f, 2) + jumpHeight;
 
@@ -215,7 +218,7 @@ public class PlayerMouvement : MonoBehaviour
         targetLane = Mathf.Clamp(targetLane, 0, lanes.Length - 1);
 
         Vector3 targetPos = new Vector3(lanes[targetLane].position.x, transform.position.y, transform.position.z);
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.unscaledDeltaTime);
 
         if (Mathf.Abs(transform.position.x - targetPos.x) < 0.01f)
         {
@@ -232,7 +235,7 @@ public class PlayerMouvement : MonoBehaviour
 
         if (isWaitingToLaunch)
         {
-            launchTimer -= Time.deltaTime;
+            launchTimer -= Time.unscaledDeltaTime;
             forwardSpeed = 0f;
 
             if (launchTimer <= 0f)
@@ -246,18 +249,17 @@ public class PlayerMouvement : MonoBehaviour
             return;
         }
 
-        // chute ou vol
         if (isFlying && flyDirection == 1 && pos.y < baseY + flyHeight)
-            pos.y += flySpeed * Time.deltaTime;
+            pos.y += flySpeed * Time.unscaledDeltaTime;
         else if ((flyDirection == -1 || forceDescend) && pos.y > baseY)
-            pos.y -= flySpeed * Time.deltaTime;
+            pos.y -= flySpeed * Time.unscaledDeltaTime;
 
         pos.y = Mathf.Clamp(pos.y, baseY, baseY + flyHeight);
         transform.position = pos;
 
         if (isFlying && pos.y > baseY && !isOutOfFuel)
         {
-            bool hasFuel = inventory.ConsumeFuel(fuelConsumption * Time.deltaTime);
+            bool hasFuel = inventory.ConsumeFuel(fuelConsumption * Time.unscaledDeltaTime);
             if (!hasFuel)
             {
                 isOutOfFuel = true;
@@ -270,7 +272,7 @@ public class PlayerMouvement : MonoBehaviour
 
         if (isFlying)
         {
-            runSpeed += flySpeedIncreaseRate * Time.deltaTime;
+            runSpeed += flySpeedIncreaseRate * Time.unscaledDeltaTime;
             runSpeed = Mathf.Min(runSpeed, maxFlyRunSpeed);
             if (currentSpeedState == 2 || currentSpeedState == 3)
                 forwardSpeed = runSpeed;
@@ -289,13 +291,11 @@ public class PlayerMouvement : MonoBehaviour
             forceDescend = false;
         }
 
-        // Gestion air stun
         if (isAirStunned)
         {
             if (pos.y > baseY)
             {
-                // chute naturelle
-                pos.y -= airFallSpeed * Time.deltaTime;
+                pos.y -= airFallSpeed * Time.unscaledDeltaTime;
                 if (pos.y < baseY) pos.y = baseY;
                 transform.position = pos;
 
@@ -306,11 +306,10 @@ public class PlayerMouvement : MonoBehaviour
             }
             else
             {
-                // stun au sol
                 if (airStunTimer <= 0f)
                     airStunTimer = airStunDuration;
 
-                airStunTimer -= Time.deltaTime;
+                airStunTimer -= Time.unscaledDeltaTime;
 
                 if (airStunTimer <= 0f)
                 {
@@ -323,6 +322,12 @@ public class PlayerMouvement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (isInvincible) 
+        {
+            Debug.Log("Collision ignorée car invincible avec : " + other.name);
+            return; // Ignore collisions si invincible
+        }
+
         if (other.CompareTag("Obstacle"))
         {
             if (isFlying)
@@ -372,12 +377,23 @@ public class PlayerMouvement : MonoBehaviour
 
     private void Update()
     {
+        // 🔹 Gestion invincibilité
+        if (isInvincible)
+        {
+            invincibleTimer -= Time.unscaledDeltaTime; // 🔹 ignore Time.timeScale
+            if (invincibleTimer <= 0f)
+            {
+                isInvincible = false;
+                Debug.Log("Invincibilité terminée !");
+            }
+        }
+
         if (justJumpedTimer > 0f)
-            justJumpedTimer -= Time.deltaTime;
+            justJumpedTimer -= Time.unscaledDeltaTime;
 
         if (isWoodStunned)
         {
-            woodStunTimer -= Time.deltaTime;
+            woodStunTimer -= Time.unscaledDeltaTime;
             if (woodStunTimer <= 0f && woodObstacleCounter == 0)
             {
                 isWoodStunned = false;
@@ -392,7 +408,7 @@ public class PlayerMouvement : MonoBehaviour
 
         if (isOutOfFuel)
         {
-            outOfFuelTimer -= Time.deltaTime;
+            outOfFuelTimer -= Time.unscaledDeltaTime;
             if (outOfFuelTimer <= 0f)
             {
                 isOutOfFuel = false;
@@ -422,4 +438,35 @@ public class PlayerMouvement : MonoBehaviour
     public float GetForwardSpeed() => forwardSpeed;
     public bool IsFlying => isFlying;
     public bool IsOutOfFuel => isOutOfFuel;
+
+    // 🔹 Reset joueur et invincibilité après respawn
+    public void ResetPlayerPosition()
+    {
+        if (lanes != null && lanes.Length > 0)
+        {
+            int middleLane = lanes.Length / 2;
+            Vector3 lanePos = lanes[middleLane].position;
+            transform.position = new Vector3(lanePos.x, baseY, transform.position.z);
+            currentLane = middleLane;
+            targetLane = middleLane;
+        }
+        else
+        {
+            transform.position = new Vector3(0f, baseY, transform.position.z);
+            currentLane = 0;
+            targetLane = 0;
+        }
+
+        isFlying = false;
+        flyDirection = 0;
+        forceDescend = false;
+        isJumping = false;
+        jumpToFlyComboActive = false;
+        SetSpeed(2);
+
+        // 🔹 Active l'invincibilité 2 secondes
+        isInvincible = true;
+        invincibleTimer = invincibleDuration;
+        Debug.Log("Invincibilité activée !");
+    }
 }

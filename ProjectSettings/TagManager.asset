@@ -8,6 +8,7 @@ TagManager:
   - ObstacleWood
   - Water
   - Carburant
+  - Particule
   layers:
   - Default
   - TransparentFX
