@@ -11,10 +11,17 @@ public class ChunkManager : MonoBehaviour
     [SerializeField] private PlayerMouvement player;
 
     [Header("Capsule Settings")]
-    public GameObject capsulePrefab;          // prefab de la capsule à spawn
-    public float capsuleSpawnHeight = 1f;     // Y fixe pour la capsule
-    public float[] allowedX = { -3f, 0f, 3f }; // positions X autorisées
-    public string[] obstacleTags = { "Obstacle", "ObstacleWood" }; // tags à éviter
+    public GameObject capsulePrefab;
+    public float capsuleSpawnHeight = 1f;
+    public float[] allowedX = { -3f, 0f, 3f };
+    public string[] obstacleTags = { "Obstacle", "ObstacleWood" };
+
+    [Header("Speed Progression")]
+    [SerializeField] private float increaseInterval = 30f;
+    [SerializeField] private float speedMultiplierStep = 0.1f;
+
+    private float timer = 0f;
+    private float speedMultiplier = 1f;
 
     private Queue<GameObject> chunks = new Queue<GameObject>();
     private int lastChunkIndex = -1;
@@ -30,6 +37,7 @@ public class ChunkManager : MonoBehaviour
     void Update()
     {
         UpdateSpeed();
+        HandleSpeedProgression();
         MoveChunks();
         RecycleChunks();
     }
@@ -37,7 +45,21 @@ public class ChunkManager : MonoBehaviour
     void UpdateSpeed()
     {
         if (player == null) return;
-        moveSpeed = player.GetForwardSpeed();
+
+        moveSpeed = player.GetForwardSpeed() * speedMultiplier;
+    }
+
+    void HandleSpeedProgression()
+    {
+        timer += Time.deltaTime;
+
+        if (timer >= increaseInterval)
+        {
+            timer = 0f;
+            speedMultiplier += speedMultiplierStep;
+
+            Debug.Log("🔥 Speed multiplier: " + speedMultiplier);
+        }
     }
 
     void MoveChunks()
@@ -89,7 +111,6 @@ public class ChunkManager : MonoBehaviour
         GameObject chunk = Instantiate(prefab, spawnPos, Quaternion.identity);
         chunks.Enqueue(chunk);
 
-        // 🔹 Spawn d'une capsule aléatoire sur ce chunk
         TrySpawnCapsule(chunk);
     }
 
@@ -111,17 +132,14 @@ public class ChunkManager : MonoBehaviour
     {
         if (capsulePrefab == null || chunk == null) return;
 
-        // Choisir un X aléatoire parmi allowedX
         float randomX = allowedX[Random.Range(0, allowedX.Length)];
 
-        // Choisir Z aléatoire dans la longueur du chunk
         float minZ = chunk.transform.position.z;
         float maxZ = chunk.transform.position.z + chunk.transform.localScale.z;
         float randomZ = Random.Range(minZ, maxZ);
 
         Vector3 spawnPos = new Vector3(randomX, capsuleSpawnHeight, randomZ);
 
-        // Vérifier qu'il n'y a pas d'obstacle
         Collider[] hitColliders = Physics.OverlapSphere(spawnPos, 0.5f);
         foreach (var hit in hitColliders)
         {
@@ -129,13 +147,26 @@ public class ChunkManager : MonoBehaviour
             {
                 if (hit.CompareTag(tag))
                 {
-                    // Si un obstacle est présent → ne pas spawn
                     return;
                 }
             }
         }
 
-        // ⚡ Instancier la capsule comme enfant du chunk
         Instantiate(capsulePrefab, spawnPos, Quaternion.identity, chunk.transform);
+    }
+
+    // ✅ Accès au multiplier (pour UI)
+    public float GetSpeedMultiplier()
+    {
+        return speedMultiplier;
+    }
+
+    // ✅ Reset de la vitesse (appelé par GameManager)
+    public void ResetSpeed()
+    {
+        speedMultiplier = 1f;
+        timer = 0f;
+
+        Debug.Log("🔄 Speed reset");
     }
 }

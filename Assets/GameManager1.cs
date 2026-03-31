@@ -20,12 +20,18 @@ public class GameManager : MonoBehaviour
     public TMP_Text deathMessageText;
     public TMP_Text runsDetailText;
 
+    [Header("Speed UI")]
+    public TMP_Text speedText;
+
     [Header("Score")]
     public DistanceTracker distanceTracker;
 
     [Header("Audio")]
     public AudioSource gameplayMusic;
     public AudioSource gameOverMusic;
+
+    [Header("Chunk")]
+    public ChunkManager chunkManager;
 
     private bool isGamePaused = false;
 
@@ -38,10 +44,26 @@ public class GameManager : MonoBehaviour
             deathPanel.SetActive(false);
     }
 
+    private void Update()
+    {
+        if (chunkManager != null)
+        {
+            UpdateSpeedUI(chunkManager.GetSpeedMultiplier());
+        }
+    }
+
     private void UpdateLivesUI()
     {
         if (livesText != null)
             livesText.text = "Vies : " + currentLives;
+    }
+
+    void UpdateSpeedUI(float multiplier)
+    {
+        if (speedText != null)
+        {
+            speedText.text = "Vitesse x" + multiplier.ToString("F1");
+        }
     }
 
     // 🔴 Mort
@@ -51,11 +73,9 @@ public class GameManager : MonoBehaviour
 
         isGamePaused = true;
 
-        // 🔥 Sauvegarde du run
         if (distanceTracker != null)
             distanceTracker.SaveAndResetRun();
 
-        // 🎧 Transition audio
         if (gameplayMusic != null)
         {
             StartCoroutine(FadeOut(gameplayMusic, 1f));
@@ -66,7 +86,6 @@ public class GameManager : MonoBehaviour
             StartCoroutine(FadeIn(gameOverMusic, 1f));
         }
 
-        // UI
         if (deathPanel != null)
             deathPanel.SetActive(true);
 
@@ -84,14 +103,12 @@ public class GameManager : MonoBehaviour
     {
         if (currentLives <= 0) return;
 
-        // 🔴 STOP musique game over
         if (gameOverMusic != null)
         {
             gameOverMusic.Stop();
             gameOverMusic.volume = 0f;
         }
 
-        // 🟢 RELANCE musique gameplay
         if (gameplayMusic != null)
         {
             gameplayMusic.volume = 0f;
@@ -120,12 +137,16 @@ public class GameManager : MonoBehaviour
             if (crowd != null)
                 crowd.ResetCrowd();
 
+            // ✅ RESET VITESSE ICI
+            if (chunkManager != null)
+            {
+                chunkManager.ResetSpeed();
+            }
+
             player.SetSpeed(2);
         }
         else
         {
-            // 🔥 GAME OVER FINAL
-
             int finalScore = distanceTracker.GetFinalScore();
             int highScore = PlayerPrefs.GetInt("HighScore", 0);
 
@@ -141,7 +162,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // 🎧 Fade Out
     IEnumerator FadeOut(AudioSource audioSource, float duration)
     {
         float startVolume = audioSource.volume;
@@ -158,7 +178,6 @@ public class GameManager : MonoBehaviour
         audioSource.volume = startVolume;
     }
 
-    // 🎧 Fade In
     IEnumerator FadeIn(AudioSource audioSource, float duration)
     {
         audioSource.volume = 0f;
@@ -174,7 +193,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // 🔹 UI des runs
     void UpdateRunsUI()
     {
         if (runsDetailText == null || distanceTracker == null)
@@ -192,7 +210,6 @@ public class GameManager : MonoBehaviour
         runsDetailText.text = detail;
     }
 
-    // 🔵 Quitter
     public void QuitGame()
     {
         Time.timeScale = 1f;
