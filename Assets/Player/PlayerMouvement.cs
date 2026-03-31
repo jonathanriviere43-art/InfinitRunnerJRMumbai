@@ -39,7 +39,11 @@ public class PlayerMouvement : MonoBehaviour
     [SerializeField] private float airFallSpeed = 10f;
 
     [Header("Invincibilité après respawn")]
-    [SerializeField] private float invincibleDuration = 2f; // 🔹 2 secondes
+    [SerializeField] private float invincibleDuration = 2f;
+
+    // 🔹 AJOUT ANIMATOR
+    [Header("Animator")]
+    [SerializeField] private Animator animator;
 
     private int currentSpeedState = 2;
     private float forwardSpeed;
@@ -48,51 +52,40 @@ public class PlayerMouvement : MonoBehaviour
     private int currentLane = 1;
     private int targetLane = 1;
 
-    // Jump
     private bool isJumping = false;
     private float jumpTimeElapsed = 0f;
     private float startY;
 
-    // Stop system
     private int speedBeforeStop = 2;
     private Vector3 stopPosition;
 
-    // Fly
     private bool isFlying = false;
     private float baseY;
     private PlayerInventory inventory;
     private int flyDirection = 0;
     private bool forceDescend = false;
 
-    // Latence décollage
     private bool isWaitingToLaunch = false;
     private float launchTimer = 0f;
 
-    // Combo Jump -> Fly
     private float justJumpedTimer = 0f;
     private bool jumpToFlyComboActive = false;
 
-    // Base speed
     private float baseRunSpeed;
 
-    // Blocage
     private bool blockedByObstacle = false;
 
-    // WOOD STUN
     private bool isWoodStunned = false;
     private float woodStunTimer = 0f;
     private int woodObstacleCounter = 0;
 
-    // AIR STUN
     private bool isAirStunned = false;
     private float airStunTimer = 0f;
 
-    // PANNE DE CARBURANT
     private bool isOutOfFuel = false;
     private float outOfFuelTimer = 0f;
     [SerializeField] private float outOfFuelDelay = 1f;
 
-    // 🔹 Invincibilité
     private bool isInvincible = false;
     private float invincibleTimer = 0f;
 
@@ -134,6 +127,7 @@ public class PlayerMouvement : MonoBehaviour
                 if (justJumpedTimer > 0f)
                 {
                     jumpToFlyComboActive = true;
+
                     Vector3 pos = transform.position;
                     pos.y = Mathf.Max(baseY + 0.1f, pos.y);
                     transform.position = pos;
@@ -184,6 +178,10 @@ public class PlayerMouvement : MonoBehaviour
         justJumpedTimer = jumpFlyWindow;
         jumpToFlyComboActive = false;
 
+        // 🔹 ANIM
+        if (animator != null)
+            animator.SetBool("IsJumping", true);
+
         if (forwardSpeed == 0f)
             SetSpeed(speedBeforeStop);
     }
@@ -195,6 +193,11 @@ public class PlayerMouvement : MonoBehaviour
         if (jumpToFlyComboActive)
         {
             isJumping = false;
+
+            // 🔹 ANIM STOP
+            if (animator != null)
+                animator.SetBool("IsJumping", false);
+
             return;
         }
 
@@ -207,6 +210,11 @@ public class PlayerMouvement : MonoBehaviour
         if (jumpTimeElapsed >= jumpDuration)
         {
             isJumping = false;
+
+            // 🔹 ANIM STOP
+            if (animator != null)
+                animator.SetBool("IsJumping", false);
+
             transform.position = new Vector3(transform.position.x, baseY, transform.position.z);
         }
     }
@@ -325,7 +333,7 @@ public class PlayerMouvement : MonoBehaviour
         if (isInvincible) 
         {
             Debug.Log("Collision ignorée car invincible avec : " + other.name);
-            return; // Ignore collisions si invincible
+            return;
         }
 
         if (other.CompareTag("Obstacle"))
@@ -377,10 +385,9 @@ public class PlayerMouvement : MonoBehaviour
 
     private void Update()
     {
-        // 🔹 Gestion invincibilité
         if (isInvincible)
         {
-            invincibleTimer -= Time.unscaledDeltaTime; // 🔹 ignore Time.timeScale
+            invincibleTimer -= Time.unscaledDeltaTime;
             if (invincibleTimer <= 0f)
             {
                 isInvincible = false;
@@ -439,7 +446,6 @@ public class PlayerMouvement : MonoBehaviour
     public bool IsFlying => isFlying;
     public bool IsOutOfFuel => isOutOfFuel;
 
-    // 🔹 Reset joueur et invincibilité après respawn
     public void ResetPlayerPosition()
     {
         if (lanes != null && lanes.Length > 0)
@@ -464,7 +470,10 @@ public class PlayerMouvement : MonoBehaviour
         jumpToFlyComboActive = false;
         SetSpeed(2);
 
-        // 🔹 Active l'invincibilité 2 secondes
+        // 🔹 Reset anim
+        if (animator != null)
+            animator.SetBool("IsJumping", false);
+
         isInvincible = true;
         invincibleTimer = invincibleDuration;
         Debug.Log("Invincibilité activée !");

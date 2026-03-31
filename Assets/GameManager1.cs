@@ -66,7 +66,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // 🔴 Mort
     public void PlayerCaughtByCrowd()
     {
         if (isGamePaused) return;
@@ -77,14 +76,10 @@ public class GameManager : MonoBehaviour
             distanceTracker.SaveAndResetRun();
 
         if (gameplayMusic != null)
-        {
             StartCoroutine(FadeOut(gameplayMusic, 1f));
-        }
 
         if (gameOverMusic != null)
-        {
             StartCoroutine(FadeIn(gameOverMusic, 1f));
-        }
 
         if (deathPanel != null)
             deathPanel.SetActive(true);
@@ -98,7 +93,6 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    // 🟢 Continuer
     public void ContinueAfterDeath()
     {
         if (currentLives <= 0) return;
@@ -114,9 +108,7 @@ public class GameManager : MonoBehaviour
             gameplayMusic.volume = 0f;
 
             if (!gameplayMusic.isPlaying)
-            {
                 gameplayMusic.Play();
-            }
 
             StartCoroutine(FadeIn(gameplayMusic, 1f));
         }
@@ -137,10 +129,14 @@ public class GameManager : MonoBehaviour
             if (crowd != null)
                 crowd.ResetCrowd();
 
-            // ✅ RESET VITESSE ICI
             if (chunkManager != null)
-            {
                 chunkManager.ResetSpeed();
+
+            // ✅ RESET FUEL PROPRE
+            PlayerInventory inventory = player.GetComponent<PlayerInventory>();
+            if (inventory != null)
+            {
+                inventory.ResetFuel();
             }
 
             player.SetSpeed(2);
@@ -154,7 +150,6 @@ public class GameManager : MonoBehaviour
             {
                 PlayerPrefs.SetInt("HighScore", finalScore);
                 PlayerPrefs.Save();
-                Debug.Log("🔥 Nouveau High Score : " + finalScore);
             }
 
             Time.timeScale = 1f;

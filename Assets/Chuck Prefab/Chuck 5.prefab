@@ -65,6 +65,10 @@ PrefabInstance:
       value: detail-barrel (5)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
       propertyPath: m_TagString
       value: ObstacleWood
       objectReference: {fileID: 0}
@@ -172,6 +176,10 @@ PrefabInstance:
       value: detail-barrel (9)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
       propertyPath: m_TagString
       value: ObstacleWood
       objectReference: {fileID: 0}
@@ -265,6 +273,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_Name
       value: wall (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_TagString
@@ -490,6 +502,10 @@ PrefabInstance:
       value: wall (8)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_TagString
       value: Obstacle
       objectReference: {fileID: 0}
@@ -597,6 +613,10 @@ PrefabInstance:
       value: detail-barrel (8)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
       propertyPath: m_TagString
       value: ObstacleWood
       objectReference: {fileID: 0}
@@ -692,6 +712,10 @@ PrefabInstance:
       value: wall (12)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_TagString
       value: Obstacle
       objectReference: {fileID: 0}
@@ -785,6 +809,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_Name
       value: wall (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_TagString
@@ -968,6 +996,10 @@ PrefabInstance:
       value: detail-barrel (7)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
       propertyPath: m_TagString
       value: ObstacleWood
       objectReference: {fileID: 0}
@@ -1063,6 +1095,10 @@ PrefabInstance:
       value: wall (3)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_TagString
       value: Obstacle
       objectReference: {fileID: 0}
@@ -1156,6 +1192,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_Name
       value: wall (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_TagString
@@ -1451,6 +1491,10 @@ PrefabInstance:
       value: tower-edge
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: eca3cadff5a224ca892e5d68c0d730ab, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: eca3cadff5a224ca892e5d68c0d730ab, type: 3}
       propertyPath: m_TagString
       value: Obstacle
       objectReference: {fileID: 0}
@@ -1544,6 +1588,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_Name
       value: wall (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_TagString
@@ -1641,6 +1689,10 @@ PrefabInstance:
       value: wall (11)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_TagString
       value: Obstacle
       objectReference: {fileID: 0}
@@ -1734,6 +1786,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_Name
       value: wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_TagString
@@ -1831,6 +1887,10 @@ PrefabInstance:
       value: wall (14)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_TagString
       value: Obstacle
       objectReference: {fileID: 0}
@@ -1924,6 +1984,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_Name
       value: wall (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_TagString
@@ -2031,6 +2095,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d81ba639edf3e452da33e75f2b734ce4, type: 3}
       propertyPath: m_Name
       value: detail-crate
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d81ba639edf3e452da33e75f2b734ce4, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d81ba639edf3e452da33e75f2b734ce4, type: 3}
       propertyPath: m_TagString
@@ -2202,6 +2270,10 @@ PrefabInstance:
       value: detail-barrel (6)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
       propertyPath: m_TagString
       value: ObstacleWood
       objectReference: {fileID: 0}
@@ -2309,6 +2381,10 @@ PrefabInstance:
       value: tower-edge (1)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: eca3cadff5a224ca892e5d68c0d730ab, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: eca3cadff5a224ca892e5d68c0d730ab, type: 3}
       propertyPath: m_TagString
       value: Obstacle
       objectReference: {fileID: 0}
@@ -2402,6 +2478,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_Name
       value: wall (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_TagString
@@ -2511,6 +2591,10 @@ PrefabInstance:
       value: detail-barrel (10)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
       propertyPath: m_TagString
       value: ObstacleWood
       objectReference: {fileID: 0}
@@ -2604,6 +2688,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_Name
       value: wall (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_TagString
@@ -3054,6 +3142,10 @@ PrefabInstance:
       value: wall (6)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_TagString
       value: Obstacle
       objectReference: {fileID: 0}
@@ -3147,6 +3239,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_Name
       value: wall (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_TagString
@@ -3256,6 +3352,10 @@ PrefabInstance:
       value: detail-barrel (11)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
       propertyPath: m_TagString
       value: ObstacleWood
       objectReference: {fileID: 0}
@@ -3349,6 +3449,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_Name
       value: wall (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 149a4622f574c456ea4cb7a1977921be, type: 3}
       propertyPath: m_TagString
@@ -3518,6 +3622,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
       propertyPath: m_Name
       value: detail-barrel (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
       propertyPath: m_TagString

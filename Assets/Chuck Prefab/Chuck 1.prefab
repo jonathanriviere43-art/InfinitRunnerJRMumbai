@@ -327,6 +327,10 @@ PrefabInstance:
       value: tower-paint (3)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b3c0ad1702b374bb1a21d08efa3b5bc5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b3c0ad1702b374bb1a21d08efa3b5bc5, type: 3}
       propertyPath: m_TagString
       value: Obstacle
       objectReference: {fileID: 0}
@@ -2005,6 +2009,10 @@ PrefabInstance:
       value: wall-fortified-paint-window (1)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4f30cffeb68a24067bb2e8ac7f545b0a, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4f30cffeb68a24067bb2e8ac7f545b0a, type: 3}
       propertyPath: m_TagString
       value: Obstacle
       objectReference: {fileID: 0}
@@ -2286,6 +2294,10 @@ PrefabInstance:
       value: tower-paint (4)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b3c0ad1702b374bb1a21d08efa3b5bc5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b3c0ad1702b374bb1a21d08efa3b5bc5, type: 3}
       propertyPath: m_TagString
       value: Obstacle
       objectReference: {fileID: 0}
@@ -2441,6 +2453,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 4f30cffeb68a24067bb2e8ac7f545b0a, type: 3}
       propertyPath: m_Name
       value: wall-fortified-paint-window
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4f30cffeb68a24067bb2e8ac7f545b0a, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4f30cffeb68a24067bb2e8ac7f545b0a, type: 3}
       propertyPath: m_TagString
@@ -2662,6 +2678,10 @@ PrefabInstance:
       value: tower-paint (1)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b3c0ad1702b374bb1a21d08efa3b5bc5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b3c0ad1702b374bb1a21d08efa3b5bc5, type: 3}
       propertyPath: m_TagString
       value: Obstacle
       objectReference: {fileID: 0}
@@ -2830,11 +2850,48 @@ PrefabInstance:
       propertyPath: m_Name
       value: wall-pane (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5af7b144977cd49c2aea4b931ae3089b, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5af7b144977cd49c2aea4b931ae3089b, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5af7b144977cd49c2aea4b931ae3089b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5601942690601335602}
   m_SourcePrefab: {fileID: 100100000, guid: 5af7b144977cd49c2aea4b931ae3089b, type: 3}
+--- !u!1 &3893564645627550930 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5af7b144977cd49c2aea4b931ae3089b, type: 3}
+  m_PrefabInstance: {fileID: 4236147527363813763}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &5601942690601335602
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3893564645627550930}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 0}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!4 &4414487259736573544 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5af7b144977cd49c2aea4b931ae3089b, type: 3}
@@ -3045,6 +3102,10 @@ PrefabInstance:
       value: stairs-wood
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 114984f8bc44a41e4ade9e93e12bcb1c, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 114984f8bc44a41e4ade9e93e12bcb1c, type: 3}
       propertyPath: m_TagString
       value: Obstacle
       objectReference: {fileID: 0}
@@ -3138,6 +3199,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 5af7b144977cd49c2aea4b931ae3089b, type: 3}
       propertyPath: m_Name
       value: wall-pane
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5af7b144977cd49c2aea4b931ae3089b, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5af7b144977cd49c2aea4b931ae3089b, type: 3}
       propertyPath: m_TagString
@@ -3917,6 +3982,10 @@ PrefabInstance:
       value: structure
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 66c792d87b614403689bfad760c4b9f3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 66c792d87b614403689bfad760c4b9f3, type: 3}
       propertyPath: m_TagString
       value: ObstacleWood
       objectReference: {fileID: 0}
@@ -4198,6 +4267,10 @@ PrefabInstance:
       value: wall-fortified-paint-door (1)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 985a679821b9c45d1b9e64229bbad1de, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 985a679821b9c45d1b9e64229bbad1de, type: 3}
       propertyPath: m_TagString
       value: Obstacle
       objectReference: {fileID: 0}
@@ -4354,6 +4427,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: wall-fortified-paint-half
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 88ddb4b228d7444e38dcf12bfdc312ed, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 88ddb4b228d7444e38dcf12bfdc312ed, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4415,6 +4496,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 985a679821b9c45d1b9e64229bbad1de, type: 3}
       propertyPath: m_Name
       value: wall-fortified-paint-door
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 985a679821b9c45d1b9e64229bbad1de, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 985a679821b9c45d1b9e64229bbad1de, type: 3}
       propertyPath: m_TagString
@@ -4512,6 +4597,10 @@ PrefabInstance:
       value: tower-top
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7ecc80845a9394553b17d103fe89678a, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7ecc80845a9394553b17d103fe89678a, type: 3}
       propertyPath: m_TagString
       value: Obstacle
       objectReference: {fileID: 0}
@@ -4605,6 +4694,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b3c0ad1702b374bb1a21d08efa3b5bc5, type: 3}
       propertyPath: m_Name
       value: tower-paint
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b3c0ad1702b374bb1a21d08efa3b5bc5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b3c0ad1702b374bb1a21d08efa3b5bc5, type: 3}
       propertyPath: m_TagString
@@ -5446,6 +5539,10 @@ PrefabInstance:
       value: tower-paint (2)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b3c0ad1702b374bb1a21d08efa3b5bc5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b3c0ad1702b374bb1a21d08efa3b5bc5, type: 3}
       propertyPath: m_TagString
       value: Obstacle
       objectReference: {fileID: 0}
@@ -5738,11 +5835,48 @@ PrefabInstance:
       propertyPath: m_Name
       value: wall-pane (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5af7b144977cd49c2aea4b931ae3089b, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5af7b144977cd49c2aea4b931ae3089b, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5af7b144977cd49c2aea4b931ae3089b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6349444725524991803}
   m_SourcePrefab: {fileID: 100100000, guid: 5af7b144977cd49c2aea4b931ae3089b, type: 3}
+--- !u!1 &8498744378515162433 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5af7b144977cd49c2aea4b931ae3089b, type: 3}
+  m_PrefabInstance: {fileID: 8732747039222511632}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &6349444725524991803
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8498744378515162433}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 0}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!4 &9131692934059450363 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5af7b144977cd49c2aea4b931ae3089b, type: 3}
@@ -5799,6 +5933,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 5af7b144977cd49c2aea4b931ae3089b, type: 3}
       propertyPath: m_Name
       value: wall-pane (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5af7b144977cd49c2aea4b931ae3089b, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5af7b144977cd49c2aea4b931ae3089b, type: 3}
       propertyPath: m_TagString

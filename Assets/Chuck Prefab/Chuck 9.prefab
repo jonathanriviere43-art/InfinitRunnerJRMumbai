@@ -193,6 +193,10 @@ PrefabInstance:
       value: detail-barrel (11)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
       propertyPath: m_TagString
       value: ObstacleWood
       objectReference: {fileID: 0}
@@ -290,6 +294,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
       propertyPath: m_Name
       value: wood-floor-half (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
       propertyPath: m_TagString
@@ -399,6 +407,10 @@ PrefabInstance:
       value: detail-barrel (8)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
       propertyPath: m_TagString
       value: ObstacleWood
       objectReference: {fileID: 0}
@@ -504,6 +516,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
       propertyPath: m_Name
       value: detail-barrel (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
       propertyPath: m_TagString
@@ -613,6 +629,10 @@ PrefabInstance:
       value: detail-barrel (7)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
       propertyPath: m_TagString
       value: ObstacleWood
       objectReference: {fileID: 0}
@@ -710,6 +730,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
       propertyPath: m_Name
       value: wood-floor-half (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
       propertyPath: m_TagString
@@ -811,6 +835,10 @@ PrefabInstance:
       value: wood-floor-half (8)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
       propertyPath: m_TagString
       value: ObstacleWood
       objectReference: {fileID: 0}
@@ -908,6 +936,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
       propertyPath: m_Name
       value: wood-floor-half (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
       propertyPath: m_TagString
@@ -1170,6 +1202,10 @@ PrefabInstance:
       value: wood-floor-half (10)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
       propertyPath: m_TagString
       value: ObstacleWood
       objectReference: {fileID: 0}
@@ -1267,6 +1303,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
       propertyPath: m_Name
       value: wood-floor-half (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
       propertyPath: m_TagString
@@ -1436,6 +1476,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
       propertyPath: m_Name
       value: detail-barrel (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
       propertyPath: m_TagString
@@ -1673,6 +1717,10 @@ PrefabInstance:
       value: wood-floor-half (2)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
       propertyPath: m_TagString
       value: ObstacleWood
       objectReference: {fileID: 0}
@@ -1834,6 +1882,10 @@ PrefabInstance:
       value: wood-floor-half (4)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
       propertyPath: m_TagString
       value: ObstacleWood
       objectReference: {fileID: 0}
@@ -1931,6 +1983,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
       propertyPath: m_Name
       value: wood-floor-half (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
       propertyPath: m_TagString
@@ -2500,6 +2556,10 @@ PrefabInstance:
       value: detail-barrel (4)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
       propertyPath: m_TagString
       value: ObstacleWood
       objectReference: {fileID: 0}
@@ -2669,6 +2729,10 @@ PrefabInstance:
       value: detail-barrel (5)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
       propertyPath: m_TagString
       value: ObstacleWood
       objectReference: {fileID: 0}
@@ -2776,6 +2840,10 @@ PrefabInstance:
       value: detail-barrel (6)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5e2e96c991f6845c495fa0d686b1c36d, type: 3}
       propertyPath: m_TagString
       value: ObstacleWood
       objectReference: {fileID: 0}
@@ -2873,6 +2941,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
       propertyPath: m_Name
       value: wood-floor-half (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5369a3fd10eb8424097da70e0311074d, type: 3}
       propertyPath: m_TagString
