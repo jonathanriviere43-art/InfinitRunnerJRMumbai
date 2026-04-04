@@ -20,6 +20,9 @@ public class ChunkManager : MonoBehaviour
     [SerializeField] private float increaseInterval = 30f;
     [SerializeField] private float speedMultiplierStep = 0.1f;
 
+    [Header("Collectibles")]
+    public CollectibleSpawner collectibleSpawner;
+
     private float timer = 0f;
     private float speedMultiplier = 1f;
 
@@ -111,7 +114,11 @@ public class ChunkManager : MonoBehaviour
         GameObject chunk = Instantiate(prefab, spawnPos, Quaternion.identity);
         chunks.Enqueue(chunk);
 
+        // ✅ Capsules
         TrySpawnCapsule(chunk);
+
+        // ✅ Collectibles
+        SpawnCollectiblesInChunk(chunk);
     }
 
     GameObject GetRandomPrefab()
@@ -155,13 +162,30 @@ public class ChunkManager : MonoBehaviour
         Instantiate(capsulePrefab, spawnPos, Quaternion.identity, chunk.transform);
     }
 
+    // ✅ NOUVEAU : spawn collectibles dans le chunk
+    void SpawnCollectiblesInChunk(GameObject chunk)
+    {
+        if (collectibleSpawner == null)
+        {
+            Debug.LogWarning("CollectibleSpawner non assigné !");
+            return;
+        }
+
+        int collectiblesToSpawn = Random.Range(1, 4); // 1 à 3 collectibles par chunk
+
+        for (int i = 0; i < collectiblesToSpawn; i++)
+        {
+            collectibleSpawner.SpawnCollectibleInChunk(chunk.transform);
+        }
+    }
+
     // ✅ Accès au multiplier (pour UI)
     public float GetSpeedMultiplier()
     {
         return speedMultiplier;
     }
 
-    // ✅ Reset de la vitesse (appelé par GameManager)
+    // ✅ Reset de la vitesse
     public void ResetSpeed()
     {
         speedMultiplier = 1f;

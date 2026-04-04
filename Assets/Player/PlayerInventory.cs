@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -54,5 +55,19 @@ public class PlayerInventory : MonoBehaviour
         }
 
         return true;
+    }
+
+    // ✅ RESET DU FUEL (corrigé)
+    public void ResetFuel()
+    {
+        currentFuel = 0f;
+        collectedCapsules.Clear();
+
+        Debug.Log("⛽ Fuel reset");
+    }
+
+    internal void AddCollectible(Collectible collectible)
+    {
+        throw new NotImplementedException();
     }
 }

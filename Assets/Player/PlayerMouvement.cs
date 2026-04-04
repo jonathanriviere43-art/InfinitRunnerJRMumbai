@@ -39,7 +39,7 @@ public class PlayerMouvement : MonoBehaviour
     [SerializeField] private float airFallSpeed = 10f;
 
     [Header("Invincibilité après respawn")]
-    [SerializeField] private float invincibleDuration = 2f; // 🔹 2 secondes
+    [SerializeField] private float invincibleDuration = 2f;
 
     private int currentSpeedState = 2;
     private float forwardSpeed;
@@ -75,6 +75,9 @@ public class PlayerMouvement : MonoBehaviour
     // Base speed
     private float baseRunSpeed;
 
+    // Multiplicateur potion
+    private float speedMultiplier = 1f;
+
     // Blocage
     private bool blockedByObstacle = false;
 
@@ -92,7 +95,7 @@ public class PlayerMouvement : MonoBehaviour
     private float outOfFuelTimer = 0f;
     [SerializeField] private float outOfFuelDelay = 1f;
 
-    // 🔹 Invincibilité
+    // Invincibilité
     private bool isInvincible = false;
     private float invincibleTimer = 0f;
 
@@ -166,10 +169,16 @@ public class PlayerMouvement : MonoBehaviour
 
     private void Start()
     {
-        baseRunSpeed = runSpeed;
-        SetSpeed(currentSpeedState);
-        inventory = GetComponent<PlayerInventory>();
-        baseY = transform.position.y;
+   baseRunSpeed = runSpeed;
+
+if (PotionEffectManager.Instance != null)
+{
+    speedMultiplier = PotionEffectManager.Instance.GetSpeedMultiplier();
+}
+
+SetSpeed(currentSpeedState);
+inventory = GetComponent<PlayerInventory>();
+baseY = transform.position.y;
     }
 
     private void OnEnable() => controls.Enable();
@@ -217,8 +226,17 @@ public class PlayerMouvement : MonoBehaviour
 
         targetLane = Mathf.Clamp(targetLane, 0, lanes.Length - 1);
 
-        Vector3 targetPos = new Vector3(lanes[targetLane].position.x, transform.position.y, transform.position.z);
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.unscaledDeltaTime);
+        Vector3 targetPos = new Vector3(
+            lanes[targetLane].position.x,
+            transform.position.y,
+            transform.position.z
+        );
+
+    transform.position = Vector3.MoveTowards(
+    transform.position,
+    targetPos,
+    moveSpeed * speedMultiplier * Time.unscaledDeltaTime
+);
 
         if (Mathf.Abs(transform.position.x - targetPos.x) < 0.01f)
         {
@@ -322,11 +340,7 @@ public class PlayerMouvement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (isInvincible) 
-        {
-            Debug.Log("Collision ignorée car invincible avec : " + other.name);
-            return; // Ignore collisions si invincible
-        }
+        if (isInvincible) return;
 
         if (other.CompareTag("Obstacle"))
         {
@@ -377,15 +391,11 @@ public class PlayerMouvement : MonoBehaviour
 
     private void Update()
     {
-        // 🔹 Gestion invincibilité
         if (isInvincible)
         {
-            invincibleTimer -= Time.unscaledDeltaTime; // 🔹 ignore Time.timeScale
+            invincibleTimer -= Time.unscaledDeltaTime;
             if (invincibleTimer <= 0f)
-            {
                 isInvincible = false;
-                Debug.Log("Invincibilité terminée !");
-            }
         }
 
         if (justJumpedTimer > 0f)
@@ -439,7 +449,6 @@ public class PlayerMouvement : MonoBehaviour
     public bool IsFlying => isFlying;
     public bool IsOutOfFuel => isOutOfFuel;
 
-    // 🔹 Reset joueur et invincibilité après respawn
     public void ResetPlayerPosition()
     {
         if (lanes != null && lanes.Length > 0)
@@ -464,7 +473,6 @@ public class PlayerMouvement : MonoBehaviour
         jumpToFlyComboActive = false;
         SetSpeed(2);
 
-        // 🔹 Active l'invincibilité 2 secondes
         isInvincible = true;
         invincibleTimer = invincibleDuration;
         Debug.Log("Invincibilité activée !");

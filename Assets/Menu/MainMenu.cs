@@ -8,33 +8,55 @@ public class MainMenu : MonoBehaviour
     public Button startButton;
     public Button controlsButton;
     public Button quitButton;
+    public Button chaudronButton;
+    public Button returnChaudronButton; // ✅ AJOUT
+
+    [Header("Panels")]
+    public GameObject controlsPanel;
+    public GameObject chaudronPanel;
 
     private void Start()
     {
-        // Associer les fonctions aux boutons
         startButton.onClick.AddListener(StartGame);
         controlsButton.onClick.AddListener(OpenControls);
         quitButton.onClick.AddListener(QuitGame);
+        chaudronButton.onClick.AddListener(OpenChaudron);
+
+        // ✅ bouton retour
+        if (returnChaudronButton != null)
+            returnChaudronButton.onClick.AddListener(CloseChaudron);
     }
 
     private void StartGame()
     {
-        // Charger la scène de jeu (change "GameScene" par le nom exact de ta scène)
         SceneManager.LoadScene("SampleScene");
     }
 
     private void OpenControls()
     {
-        // Ici juste un debug, pas de panel
-        Debug.Log("Bouton Commandes cliqué !");
+        if (controlsPanel != null)
+            controlsPanel.SetActive(true);
+    }
+
+    private void OpenChaudron()
+    {
+        if (chaudronPanel != null)
+            chaudronPanel.SetActive(true);
+    }
+
+    // ✅ NOUVELLE FONCTION
+    private void CloseChaudron()
+    {
+        if (chaudronPanel != null)
+            chaudronPanel.SetActive(false);
     }
 
     private void QuitGame()
     {
         #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false; // Stop dans l'éditeur
+        UnityEditor.EditorApplication.isPlaying = false;
         #else
-        Application.Quit(); // Quitte le jeu buildé
+        Application.Quit();
         #endif
     }
 }

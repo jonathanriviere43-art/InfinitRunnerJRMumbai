@@ -6,15 +6,15 @@ public class CrowdController : MonoBehaviour
     public PlayerMouvement player;
 
     [Header("Game Manager Reference")]
-    public GameManager gameManager; // Référence au GameManager via l'inspecteur
+    public GameManager gameManager;
 
     [Header("Crowd Settings")]
-    public float followDistance = 5f;    // distance initiale derrière le joueur
-    public float catchUpSpeed = 1f;      // vitesse de rattrapage maximale
-    public float recoilFactor = 0.5f;    // facteur pour limiter la vitesse de recul en vol
+    public float followDistance = 5f;
+    public float catchUpSpeed = 1f;
+    public float recoilFactor = 0.5f;
 
     [Header("Pressure Settings")]
-    public float crowdSpeedMultiplier = 1.2f; // 🔹 multiplicateur de pression
+    public float crowdSpeedMultiplier = 1.2f;
 
     private float zOffset;
 
@@ -22,8 +22,8 @@ public class CrowdController : MonoBehaviour
     {
         if (player == null) return;
 
-        // Initialisation derrière le joueur
         zOffset = followDistance;
+
         transform.position = new Vector3(
             transform.position.x,
             transform.position.y,
@@ -35,21 +35,24 @@ public class CrowdController : MonoBehaviour
     {
         if (player == null) return;
 
+        // 🔥 Potion Vitesse (crowd slowdown)
+        if (PotionEffectManager.Instance != null)
+        {
+            crowdSpeedMultiplier = PotionEffectManager.Instance.GetCrowdSpeedMultiplier();
+        }
+
         float playerSpeed = player.GetForwardSpeed();
         float speedFactor = 1f;
 
         if (!player.IsFlying)
         {
-            // 🔥 NOUVEAU SYSTEME INTELLIGENT
             if (playerSpeed == 0f)
             {
-                speedFactor = 1.5f; // joueur bloqué → la foule avance
+                speedFactor = 1.5f;
             }
             else
             {
                 float speedRatio = playerSpeed / player.runSpeed;
-
-                // plus le joueur est lent, plus la foule accélère
                 speedFactor = Mathf.Lerp(2f, 0.5f, speedRatio);
             }
 
@@ -58,12 +61,10 @@ public class CrowdController : MonoBehaviour
         }
         else
         {
-            // Joueur en vol → la foule recule proportionnellement à sa vitesse
             float deltaZ = playerSpeed * recoilFactor * Time.deltaTime;
             zOffset += deltaZ;
         }
 
-        // Position finale de la foule (X fixe)
         transform.position = new Vector3(
             transform.position.x,
             transform.position.y,
@@ -77,16 +78,34 @@ public class CrowdController : MonoBehaviour
         {
             Debug.Log("Contact avec le joueur !");
 
+            // 🔥 SECOND LIFE CHECK
+            if (PotionEffectManager.Instance != null)
+            {
+                bool used = PotionEffectManager.Instance.UseSecondLife();
+
+                if (used)
+                {
+                    // Repousser la foule
+                    zOffset += 10f;
+
+                    Debug.Log("💥 Second Life activée → foule repoussée");
+
+                    return; // pas de game over
+                }
+            }
+
+            // ❌ Game Over normal
             if (gameManager != null)
                 gameManager.PlayerCaughtByCrowd();
         }
     }
 
-    // 🔹 Optionnel : remettre la foule derrière le joueur après une mort/continuer
     public void ResetCrowd()
     {
         if (player == null) return;
+
         zOffset = followDistance;
+
         transform.position = new Vector3(
             transform.position.x,
             transform.position.y,
