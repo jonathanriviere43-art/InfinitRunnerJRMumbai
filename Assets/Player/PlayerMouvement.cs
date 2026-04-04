@@ -99,6 +99,8 @@ public class PlayerMouvement : MonoBehaviour
     private bool isInvincible = false;
     private float invincibleTimer = 0f;
 
+    private Animator animator;
+
     private void Awake()
     {
         controls = new PlayerControls();
@@ -168,7 +170,11 @@ public class PlayerMouvement : MonoBehaviour
     }
 
     private void Start()
+
     {
+
+         animator = GetComponentInChildren<Animator>();
+
    baseRunSpeed = runSpeed;
 
 if (PotionEffectManager.Instance != null)
@@ -427,6 +433,8 @@ baseY = transform.position.y;
                 forceDescend = false;
             }
         }
+        animator.SetBool("isGrounded", !isJumping && !isFlying);
+        animator.SetBool("isFlying", isFlying);
     }
 
     public void SetSpeed(int v)
