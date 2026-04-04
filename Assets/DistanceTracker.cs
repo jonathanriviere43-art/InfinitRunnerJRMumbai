@@ -54,5 +54,6 @@ public class DistanceTracker : MonoBehaviour
     public float GetCurrentDistance()
     {
         return runDistance;
+        
     }
 }
