@@ -5,7 +5,12 @@ public class PlayerCollisionHandler : MonoBehaviour
 {
     private PlayerMouvement player;
 
-    [SerializeField] private CameraShake cameraShake; // assigner dans l’inspector
+    [Header("Camera Shake")]
+    [SerializeField] private CameraShake cameraShake;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip collectibleSound;
 
     // mémorise la vitesse avant l'eau
     private int speedBeforeWater;
@@ -34,11 +39,22 @@ public class PlayerCollisionHandler : MonoBehaviour
         {
             Debug.Log("Water touché ! Vitesse divisée par 2");
 
-            // mémorise la vitesse actuelle
-            speedBeforeWater = player.GetForwardSpeed() > 0 ? Mathf.RoundToInt(player.GetForwardSpeed()) : 2;
+            speedBeforeWater = player.GetForwardSpeed() > 0 
+                ? Mathf.RoundToInt(player.GetForwardSpeed()) 
+                : 2;
 
-            // divise la vitesse par 2
             player.SetSpeed(Mathf.Max(1, speedBeforeWater / 5));
+        }
+        else if (other.CompareTag("Collectible"))
+        {
+            Debug.Log("Collectible ramassé !");
+
+            if (audioSource != null && collectibleSound != null)
+            {
+                audioSource.PlayOneShot(collectibleSound);
+            }
+
+            Destroy(other.gameObject);
         }
     }
 
@@ -48,7 +64,6 @@ public class PlayerCollisionHandler : MonoBehaviour
         {
             Debug.Log("Sortie de l'eau ! Reprise vitesse course");
 
-            // remet la vitesse de course
             player.SetSpeed(2);
         }
     }

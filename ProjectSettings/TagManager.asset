@@ -9,6 +9,7 @@ TagManager:
   - Water
   - Carburant
   - Particule
+  - Collectible
   layers:
   - Default
   - TransparentFX
